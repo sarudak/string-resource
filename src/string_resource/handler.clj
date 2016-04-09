@@ -15,7 +15,7 @@
   (store [this key language value] (swap! state #(assoc % [key language] value)))
   (retrieve [this keys languages] (@(:state this) [(first keys) (first languages)])))
 
-(def ^:dynamic *string-store* (MockStringResourceStore. (atom {})))
+(def ^:dynamic *string-store* nil)
 
 (defn get-resource [key language]
   (let [string-resource (retrieve *string-store* [key] [language])]

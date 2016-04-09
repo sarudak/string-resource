@@ -1,4 +1,4 @@
-(ns string-resource.handler-test
+(ns string-resource.basic-string-resource-tests
   (:use midje.sweet)
   (:require [ring.mock.request :as mock]
             [string-resource.handler :refer :all]
