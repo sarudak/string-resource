@@ -33,4 +33,12 @@
         (:status put-response) => 200
         (:body put-response) => true
         (:status get-response) => 200
+        (:body get-response) => "This is the resource string"))
+  (fact "when a resource does exist the resource is updated to the new value"
+    (let-with-seed {["old-key" "en-US"] "This is the old string"}
+      [put-response (app (mock-put "old-key" "en-US" "This is the resource string"))
+       get-response (app (mock/request :get "/string/old-key/en-US"))]
+        (:status put-response) => 200
+        (:body put-response) => true
+        (:status get-response) => 200
         (:body get-response) => "This is the resource string")))
