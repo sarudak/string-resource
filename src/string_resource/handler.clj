@@ -2,7 +2,8 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.json :refer [wrap-json-params]]
-            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [cheshire.core :as json]))
 
 (defprotocol AStringResourceStore
   "An interface for storing string resources by langauge"
@@ -10,15 +11,10 @@
   (retrieve [this keys languages]
     "Retrieves all string resources associated with the given keys and languages"))
 
-(defrecord MockStringResourceStore [state]
-  AStringResourceStore
-  (store [this key language value] (swap! state #(assoc % [key language] value)))
-  (retrieve [this keys languages] (@(:state this) [(first keys) (first languages)])))
-
 (def ^:dynamic *string-store* nil)
 
 (defn get-resource [key language]
-  (let [string-resource (retrieve *string-store* [key] [language])]
+  (let [string-resource (-> (retrieve *string-store* [key] [language]) vals first)]
     (if string-resource
       string-resource
       {:status 404
@@ -33,6 +29,9 @@
   (GET "/" [] "Hello World")
   (GET "/string/:key/:language" [key language] (get-resource key language))
   (PUT "/string/:key/:language" [key language value] (set-resource key language value))
+  (POST "/string/find-all" [keys languages]
+    {:status 200
+      :body (json/generate-string (retrieve *string-store* keys languages))})
   (route/not-found "Not Found"))
 
 (def app

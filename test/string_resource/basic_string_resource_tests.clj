@@ -1,12 +1,9 @@
 (ns string-resource.basic-string-resource-tests
   (:use midje.sweet)
   (:require [ring.mock.request :as mock]
-            [string-resource.handler :refer :all]
-            [cheshire.core :as json]))
-
-(defmacro let-with-seed [string-store-seed & body]
-  `(binding [*string-store* (->MockStringResourceStore (atom ~string-store-seed))]
-      (let ~@body)))
+            [string-resource.handler :refer [app]]
+            [cheshire.core :as json]
+            [string-resource.test-helpers :refer :all]))
 
 (fact "gets to /string get string-resources"
   (fact "when a resource does not exist the service returns 404"
