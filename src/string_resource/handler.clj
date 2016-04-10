@@ -4,7 +4,7 @@
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [string-resource.storage-protocol :refer :all]
-            [string-resource.mongo-store :refer [->MongoStringResourceStore]]
+            [string-resource.mongo-store :refer [build-mongo-store]]
             [cheshire.core :as json]))
 
 (def ^:dynamic *string-store* nil)

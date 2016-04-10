@@ -2,12 +2,15 @@
   (:use midje.sweet)
   (:require [string-resource.mongo-store :refer :all]
             [monger.collection :as mc]
+            [monger.core :as mg]
             [string-resource.storage-protocol :refer :all]
             [string-resource.test-helpers :refer :all]))
 
 
+
 (fact "When using mongoDB" :integration
-      (let [mongo-store (->MongoStringResourceStore)]
+      (let [mongo-store (build-mongo-store {})
+            db (mg/get-db (mg/connect) "local")]
         (mc/remove db "string-resources")
         (fact "We can insert data"
               (store mongo-store key1 english "some random string")
@@ -21,6 +24,3 @@
                 (get data (str key1 " " english)) => "some random string"
                 (get data (str key2 " " english)) => "another random string"))
         (mc/remove db "string-resources")))
-
-
-
