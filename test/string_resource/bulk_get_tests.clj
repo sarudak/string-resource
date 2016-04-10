@@ -5,13 +5,6 @@
             [string-resource.test-helpers :refer :all]
             [cheshire.core :as json]))
 
-(def key1 "somethingtosay")
-(def key2 "somethingelse")
-(def key3 "anotherkey")
-(def english "en-us")
-(def french "fr-fr")
-(def spanish "es-419")
-
 (def seed-data {
   [key1 english] "This is something to say"
   [key2 english]  "Now saying something else"
@@ -36,7 +29,7 @@
       parsed-body => (contains [[(str key2 " " english) "Now saying something else"]])
       parsed-body => (contains [[(str key1 " " french) "Ceci est quelque chose à dire"]])
       parsed-body => (contains [[(str key2 " " french) "Maintenant dire autre chose"]])))
-      
+
   (fact "when querying for entries that do not exist existent entries are returned"
     (let-with-seed seed-data
       [response (app (mock-post [key1 key3] [english french spanish]))

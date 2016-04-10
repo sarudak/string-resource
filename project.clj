@@ -6,7 +6,8 @@
                  [compojure "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [cheshire "5.5.0"]
-                 [ring/ring-json "0.4.0"]]
+                 [ring/ring-json "0.4.0"]
+                 [com.novemberain/monger "3.0.2"]]
   :plugins [[lein-ring "0.9.7"]
             [lein-midje "3.1.3"]]
   :ring {:handler string-resource.handler/app}

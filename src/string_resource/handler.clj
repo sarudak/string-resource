@@ -3,13 +3,9 @@
             [compojure.route :as route]
             [ring.middleware.json :refer [wrap-json-params]]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [string-resource.storage-protocol :refer :all]
+            [string-resource.mongo-store :refer [->MongoStringResourceStore]]
             [cheshire.core :as json]))
-
-(defprotocol AStringResourceStore
-  "An interface for storing string resources by langauge"
-  (store [this key language value] "Stores a string resource")
-  (retrieve [this keys languages]
-    "Retrieves all string resources associated with the given keys and languages"))
 
 (def ^:dynamic *string-store* nil)
 
