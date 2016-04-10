@@ -17,11 +17,12 @@
       (filter #(identity (second %)))
       (into {})))
 
-(defrecord MockStringResourceStore [state]
-  AStringResourceStore
-  (store [this key language value] (swap! state #(assoc % [key language] value)))
-  (retrieve [this keys languages] (get-all @state keys languages)))
+(defn build-mock-store [seed]
+  (let [state (atom seed)]
+    (reify AStringResourceStore
+      (store [_ key language value] (swap! state #(assoc % [key language] value)))
+      (retrieve [_ keys languages] (get-all @state keys languages)))))
 
 (defmacro let-with-seed [string-store-seed & body]
-  `(binding [*string-store* (->MockStringResourceStore (atom ~string-store-seed))]
+  `(binding [*string-store* (build-mock-store ~string-store-seed)]
       (let ~@body)))
