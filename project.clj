@@ -7,10 +7,11 @@
                  [ring/ring-defaults "0.1.5"]
                  [cheshire "5.5.0"]
                  [ring/ring-json "0.4.0"]
-                 [com.novemberain/monger "3.0.2"]]
+                 [com.novemberain/monger "3.0.2"]
+                 [ring-logger "0.7.6"]]
   :plugins [[lein-ring "0.9.7"]
             [lein-midje "3.1.3"]]
-  :ring {:handler string-resource.handler/app}
+  :ring {:handler string-resource.handler/live-app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]

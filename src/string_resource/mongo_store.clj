@@ -4,9 +4,6 @@
             [string-resource.storage-protocol :refer [AStringResourceStore]])
   (:import [com.mongodb MongoOptions ServerAddress]))
 
-
-;(def db (mg/get-db (mg/connect) "local"))
-
 (defn store-in-db [conn key language value]
   (mc/update conn "string-resources" {:_id (str key " " language)} {:key key :language language :value value} {:upsert true}))
 
